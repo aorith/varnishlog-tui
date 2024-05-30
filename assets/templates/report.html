@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Varnishlog Report</title>
+    <style>
+      body {
+        font-family: "Noto Sans", sans-serif;
+        color: #242424;
+        margin: 0;
+        padding: 10px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+      }
+
+      h1 {
+        color: #161616;
+        padding-left: 15px;
+        border-left: 1px solid #161616;
+      }
+
+      h2 {
+        color: #5d3025;
+        padding-left: 15px;
+        border-left: 1px solid #5d3025;
+      }
+      h3 {
+        color: #093060;
+        padding-left: 15px;
+        border-left: 1px solid #093060;
+      }
+      h4 {
+        color: #184033;
+        padding-left: 15px;
+        border-left: 1px solid #184033;
+      }
+
+      code.code,
+      pre.pre {
+        font-family: Hack, Consolas, Menlo, "DejaVu Sans Mono", "Courier New",
+          Courier, monospace;
+        overflow-wrap: break-word;
+        overflow-x: auto;
+        text-wrap: nowrap;
+        white-space-collapse: preserve;
+        white-space: pre-wrap;
+        word-break: normal;
+        word-spacing: 0;
+      }
+
+      pre.pre {
+        display: table; /* Don't occupy 100% width and also do not allow other elements in the same line */
+        background-color: rgba(0, 0, 0, 0.03);
+        color: #141414;
+        padding: 16px;
+        line-height: 1.5;
+        border-radius: 8px;
+        border: 2px solid #f0f0f0;
+      }
+
+      table.infoTable,
+      table.ttl {
+        font-family: Hack, Consolas, Menlo, "DejaVu Sans Mono", "Courier New",
+          Courier, monospace;
+        border-collapse: collapse;
+        border-radius: 8px;
+        border: 2px solid #f0f0f0;
+      }
+
+      .infoTable th,
+      .infoTable td {
+        padding: 8px 12px;
+      }
+
+      .infoTable th {
+        text-align: right;
+        border-right: 1px solid #dddddd;
+        background-color: rgba(0, 0, 0, 0.02);
+        color: #121212;
+      }
+
+      .infoTable td {
+        text-align: left;
+      }
+
+      table.ttl thead tr {
+        background-color: rgba(0, 0, 0, 0.02);
+        color: #121212;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      table.ttl th,
+      table.ttl td {
+        padding: 12px 15px;
+        border: 1px solid #f0f0f0;
+      }
+
+      table.ttl tbody tr {
+        border-radius: 8px;
+        border: 2px solid #f0f0f0;
+      }
+
+      table.ttl tbody td {
+        padding: 12px 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Varnishlog report</h1>
+
+    <h3>Txs Duration</h3>
+    <!-- prettier-ignore -->
+    <code class="code"><pre class="pre">{{ .TxsTotalTimeHistogram }}</pre></code>
+
+    <h3>Txs Accounting</h3>
+    <h4>Received</h4>
+    <!-- prettier-ignore -->
+    <code class="code"><pre class="pre">{{ .AccountingReceived }}</pre></code>
+    <h4>Transmitted</h4>
+    <!-- prettier-ignore -->
+    <code class="code"><pre class="pre">{{ .AccountingTransmitted }}</pre></code>
+
+    <h3>Txs Diagram</h3>
+    <pre class="mermaid">{{ .TxsStateDiagram }}</pre>
+    <br />
+
+    {{ range .Txs }}
+    <h2 id="{{ .Txid }}">Tx {{ .Txid }} - {{ .RecordType }}</h2>
+
+    {{- if .TxInfoTable }}
+    <table class="infoTable">
+      {{- range .TxInfoTable }}
+      <tr>
+        <th>{{ .Header }}</th>
+        {{- range .Values }}
+        <td>{{ . }}</td>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </table>
+    {{- end }}
+
+    <h4>Timestamps</h4>
+    <code class="code"><pre class="pre">{{ .TimestampHistogram }}</pre></code>
+
+    {{- if .TTLTable }} {{- if .TTLTable.Rows }}
+    <h4>TTL</h4>
+    <table class="ttl">
+      <thead>
+        <tr>
+          {{- range .TTLTable.Headers }}
+          <th>{{ . }}</th>
+          {{- end }}
+        </tr>
+      </thead>
+      <tbody>
+        {{- range .TTLTable.Rows }}
+        <tr>
+          {{ range . }}
+          <td>{{ . }}</td>
+          {{ end }}
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+    {{- end }} {{- end }} {{- if .TransitionsDiagram }}
+    <h4>Transitions</h4>
+    <pre class="mermaid">{{ .TransitionsDiagram }}</pre>
+    {{- end }}
+
+    <h4>Raw log</h4>
+    <code class="code"><pre class="pre">{{ .RawTx }}</pre></code>
+    {{ end }}
+
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    </script>
+  </body>
+</html>

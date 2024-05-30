@@ -1,0 +1,20 @@
+services:
+  varnishtui:
+    image: varnish:7.5
+    container_name: varnishtui
+    volumes:
+    - ./main.vcl:/etc/varnish/default.vcl:ro
+    tmpfs:
+    - /var/lib/varnish/varnishd:exec
+    ports:
+    - "8080:80"
+    depends_on:
+    - varnishb
+
+  varnishb:
+    image: varnish:7.5
+    container_name: varnishb
+    volumes:
+    - ./backend.vcl:/etc/varnish/default.vcl:ro
+    tmpfs:
+    - /var/lib/varnish/varnishd:exec

@@ -1,0 +1,88 @@
+# Built-in queries.
+# The application bundles the following queries on build time.
+
+queries:
+- name: "Built-in: Request grouping with a Tx limit"
+  script: |-
+    # Write here the command as if you were writing it in a shell script.
+    # Lines that start with a "#" or are empty will be ignored.
+    # Remember to concatenate lines belonging to the same command with a '\' at the end.
+
+    varnishlog \
+    -g request -k 100
+
+- name: "Built-in: By Host Header"
+  script: |-
+    varnishlog \
+    -g request \
+    -q 'ReqHeader:Host eq "example.com" or BereqHeader:Host eq "example.com"'
+
+- name: "Built-in: By URL"
+  script: |-
+    varnishlog \
+    -g request \
+    -q 'ReqURL ~ "/path" or BereqURL ~ "/path"'
+
+- name: "Built-in: By URL & Header"
+  script: |-
+    varnishlog \
+    -g request \
+    -q '(ReqURL ~ "/path" && ReqHeader:foo ~ "bar") or (BereqURL ~ "/path" && BereqHeader:foo ~ "bar")'
+
+- name: "Built-in: ESI requests"
+  script: varnishlog -g request -q 'Begin[3] eq "esi"'
+
+- name: "Built-in: Timestamp & HIT"
+  script: |-
+    # Filter tx where total response time is greater than 0.1 seconds
+    # and its a hit.
+    varnishlog \
+    -g request \
+    -q 'Timestamp:Resp[2] > 0.1 and VCL_call eq "HIT"'
+
+    #     1  2  3
+    # %s: %f %f %f
+    # |   |  |  |
+    # |   |  |  +- Time since last timestamp
+    # |   |  +---- Time since start of work unit
+    # |   +------- Absolute time of event
+    # +----------- Event label
+
+- name: "Built-in: Body bytes"
+  script: |-
+    # Filter tx where the number of bytes returned in the body is
+    # greater than 1MB.
+    varnishlog \
+    -g request \
+    -q 'ReqAcct[5] >= 1000000'
+
+    # ReqAcct / BereqAcct:
+
+    # 1  2  3  4  5  6
+    # |  |  |  |  |  |
+    # |  |  |  |  |  +- Total bytes transmitted
+    # |  |  |  |  +---- Body bytes transmitted
+    # |  |  |  +------- Header bytes transmitted
+    # |  |  +---------- Total bytes received
+    # |  +------------- Body bytes received
+    # +---------------- Header bytes received
+
+- name: "Built-in: Docker"
+  script: |-
+    # Replace "varnishtui" with the name of the varnish container.
+
+    docker exec varnishtui varnishlog \
+    -g session
+
+- name: "Built-in: SSH"
+  script: |-
+    # Edit 'user@192.168.1.100' to the appropriate user and hostname.
+    # To make it work without quoting hell, we're using "heredoc".
+
+    ssh -T user@192.168.1.100 << 'EOF'
+
+    varnishlog \
+    -g request -k 100
+
+    # Don't delete the end of the heredoc =)
+    EOF
