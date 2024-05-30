@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"runtime/debug"
 	"time"
 
 	"github.com/charmbracelet/log"
@@ -15,9 +14,9 @@ import (
 )
 
 var (
-	Version   string
-	Commit    string
-	BuildTime string
+	Version   string = "dev"
+	Commit    string = "none"
+	BuildTime string = "unknown"
 )
 
 var (
@@ -30,32 +29,13 @@ func init() {
 	debugMode = flag.Bool("debug", false, "enable debug logging")
 	showVersion = flag.Bool("version", false, "show version information and exit")
 	queriesFile = flag.String("file", "", "path to a YAML file containing queries")
-
-	if info, ok := debug.ReadBuildInfo(); ok {
-		for _, setting := range info.Settings {
-			switch setting.Key {
-			case "vcs.revision":
-				Commit = setting.Value
-			case "vcs.time":
-				BuildTime = setting.Value
-			case "vcs.modified":
-				if setting.Value == "true" {
-					Commit += "-modified"
-				}
-			}
-		}
-		Version = info.Main.Version
-	}
 }
 
 func Execute() {
-
 	flag.Parse()
 
 	if *showVersion {
-		fmt.Printf("Version: %s\n", Version)
-		fmt.Printf("Commit: %s\n", Commit)
-		fmt.Printf("Build Time: %s\n", BuildTime)
+		fmt.Printf("varnishlog-tui %s\ncommit %s\nbuilt at %s\n", Version, Commit, BuildTime)
 		os.Exit(0)
 	}
 
