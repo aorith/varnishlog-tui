@@ -110,11 +110,11 @@
   <body>
     <h1>Varnishlog report</h1>
 
-    <h3>Txs Duration</h3>
+    <h3>Txs Duration 🕒</h3>
     <!-- prettier-ignore -->
     <code class="code"><pre class="pre">{{ .TxsTotalTimeHistogram }}</pre></code>
 
-    <h3>Txs Accounting</h3>
+    <h3>Txs Accounting 📦</h3>
     <h4>Received</h4>
     <!-- prettier-ignore -->
     <code class="code"><pre class="pre">{{ .AccountingReceived }}</pre></code>
@@ -122,7 +122,7 @@
     <!-- prettier-ignore -->
     <code class="code"><pre class="pre">{{ .AccountingTransmitted }}</pre></code>
 
-    <h3>Txs Diagram</h3>
+    <h3>Txs Diagram 🌳</h3>
     <pre class="mermaid">{{ .TxsStateDiagram }}</pre>
     <br />
 
@@ -142,11 +142,11 @@
     </table>
     {{- end }}
 
-    <h4>Timestamps</h4>
+    <h4>Timestamps 🕒</h4>
     <code class="code"><pre class="pre">{{ .TimestampHistogram }}</pre></code>
 
     {{- if .TTLTable }} {{- if .TTLTable.Rows }}
-    <h4>TTL</h4>
+    <h4>TTL ⏳</h4>
     <table class="ttl">
       <thead>
         <tr>
@@ -166,11 +166,11 @@
       </tbody>
     </table>
     {{- end }} {{- end }} {{- if .TransitionsDiagram }}
-    <h4>Transitions</h4>
+    <h4>Transitions 🔄</h4>
     <pre class="mermaid">{{ .TransitionsDiagram }}</pre>
     {{- end }}
 
-    <h4>Raw log</h4>
+    <h4>Raw log 📄</h4>
     <code class="code"><pre class="pre">{{ .RawTx }}</pre></code>
     {{ end }}
 
