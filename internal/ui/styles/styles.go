@@ -6,16 +6,16 @@ import (
 
 /* Colors */
 var (
-	BrightRedFGColor = lipgloss.AdaptiveColor{Light: "#a32a3a", Dark: "#ff7e8f"}
-	PaleRedFGColor   = lipgloss.AdaptiveColor{Light: "#e78284", Dark: "#f38ba8"}
-	YellowFGColor    = lipgloss.AdaptiveColor{Light: "#e5c890", Dark: "#f9e2af"}
-	BrownFGColor     = lipgloss.AdaptiveColor{Light: "#ef9f76", Dark: "#fab387"}
-	BlueFGColor      = lipgloss.AdaptiveColor{Light: "#8caaee", Dark: "#89b4fa"}
-	OrangeFGColor    = lipgloss.AdaptiveColor{Light: "#a64822", Dark: "#f78e2f"}
-	GrayFGColor      = lipgloss.AdaptiveColor{Light: "#737994", Dark: "#6c7086"}
-	DarkGrayFGColor  = lipgloss.AdaptiveColor{Light: "#4a4b4e", Dark: "#b4abac"}
+	BrightRedFGColor = lipgloss.AdaptiveColor{Light: "#730a05", Dark: "#ff7e8f"}
+	PaleRedFGColor   = lipgloss.AdaptiveColor{Light: "#b74244", Dark: "#f38ba8"}
+	YellowFGColor    = lipgloss.AdaptiveColor{Light: "#b58850", Dark: "#f9e2af"}
+	BrownFGColor     = lipgloss.AdaptiveColor{Light: "#bf6f46", Dark: "#fab387"}
+	BlueFGColor      = lipgloss.AdaptiveColor{Light: "#5c7abe", Dark: "#89b4fa"}
+	OrangeFGColor    = lipgloss.AdaptiveColor{Light: "#761801", Dark: "#f78e2f"}
+	GrayFGColor      = lipgloss.AdaptiveColor{Light: "#434964", Dark: "#6c7086"}
+	DarkGrayFGColor  = lipgloss.AdaptiveColor{Light: "#1a1b1e", Dark: "#b4abac"}
 
-	LightGrayBGColor = lipgloss.AdaptiveColor{Light: "#b4abac", Dark: "#4a4b4e"}
+	LightGrayBGColor = lipgloss.AdaptiveColor{Light: "#cacbce", Dark: "#4a4b4e"}
 )
 
 /* Styles */
