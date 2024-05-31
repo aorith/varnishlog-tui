@@ -10,9 +10,9 @@ builds:
   - linux
   - darwin
   ldflags:
-  - -X cmd.Version={{.Version}}
-  - -X cmd.Commit={{.Commit}}
-  - -X cmd.BuildTime={{.Date}}
+  - -X github.com/aorith/varnishlog-tui/cmd.Version={{.Version}}
+  - -X github.com/aorith/varnishlog-tui/cmd.Commit={{.Commit}}
+  - -X github.com/aorith/varnishlog-tui/cmd.BuildTime={{.Date}}
 archives:
 - format: tar.gz
   id: varnishlog_tui
