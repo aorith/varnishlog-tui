@@ -37,8 +37,8 @@ var keys = keyMap{
 		key.WithHelp("enter", "execute"),
 	),
 	QueryLoader: key.NewBinding(
-		key.WithKeys("q"),
-		key.WithHelp("q", "query loader"),
+		key.WithKeys("d"),
+		key.WithHelp("d", "query loader"),
 	),
 	Edit: key.NewBinding(
 		key.WithKeys("e"),

@@ -83,7 +83,7 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 
 		key := msg.String()
 		switch key {
-		case "f":
+		case "q":
 			return m, func() tea.Msg {
 				return state.ChangeModelState(state.QueryEditorView, nil)
 			}
@@ -124,8 +124,8 @@ func additionalFullHelpKeys() []key.Binding {
 	var keys []key.Binding
 	keys = append(keys,
 		key.NewBinding(
-			key.WithKeys("f"),
-			key.WithHelp("f", "query editor"),
+			key.WithKeys("q"),
+			key.WithHelp("q", "query editor"),
 		),
 		key.NewBinding(
 			key.WithKeys("enter"),
@@ -143,8 +143,8 @@ func additionalShortHelpKeys() []key.Binding {
 	var keys []key.Binding
 	keys = append(keys,
 		key.NewBinding(
-			key.WithKeys("f"),
-			key.WithHelp("f", "query editor"),
+			key.WithKeys("q"),
+			key.WithHelp("q", "query editor"),
 		),
 		key.NewBinding(
 			key.WithKeys("o"),

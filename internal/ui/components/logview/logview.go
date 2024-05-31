@@ -73,6 +73,11 @@ func (m Model) Init() tea.Cmd {
 func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
+		// Dismiss errors on any keypress
+		if m.err != nil {
+			m.err = nil
+		}
+
 		// Don't match any of the keys below if we're filtering
 		if m.list.SettingFilter() {
 			break
@@ -80,9 +85,9 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 
 		key := msg.String()
 		switch key {
-		case "f":
-			return m, tea.Sequence(m.CancelTxsFetchCmd(false), switchToQueryEditorView())
 		case "q":
+			return m, tea.Sequence(m.CancelTxsFetchCmd(false), switchToQueryEditorView())
+		case "d":
 			return m, tea.Sequence(m.CancelTxsFetchCmd(false), switchToQueryLoaderView())
 		case "s":
 			return m, m.CancelTxsFetchCmd(false)
@@ -111,7 +116,6 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 		m.list.SetSize(msg.Width-frameHoriz, msg.Height-frameVert)
 	case tx.NewTxMsg:
 		if m.fetching {
-			m.err = nil
 			newTx := tx.Tx(msg)
 			return m, tea.Batch(m.addNewTxCmd(newTx), tx.ListenForTxsCmd(m.txChan))
 		}
@@ -133,7 +137,6 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 		m.cancelChan = make(chan struct{}) // reset the cancel channel to avoid errors on repeated 'c' press
 	case initFetchTxsMsg:
 		if !m.fetching {
-			m.err = nil
 			m.fetching = true
 			m.cancelChan = make(chan struct{})
 			m.txChan = make(chan tx.Tx)
@@ -150,11 +153,6 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 	var cmd tea.Cmd
 	var cmds []tea.Cmd
 
-	if m.err != nil {
-		cmds = append(cmds, m.list.NewStatusMessage(styles.ErrorStyle.Render(m.err.Error())))
-		m.err = nil
-	}
-
 	m.list, cmd = m.list.Update(msg)
 	cmds = append(cmds, cmd)
 
@@ -162,6 +160,16 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 }
 
 func (m Model) View() string {
+	if m.err != nil {
+		return styles.MainMarginStyle.
+			Width(m.list.Width()-2).
+			Render(
+				"Error executing the command:\n\n"+
+					styles.ErrorStyle.Width(m.list.Width()-4).Render(m.err.Error()),
+				"\nPress any key to continue.\n",
+			)
+	}
+
 	return styles.MainMarginStyle.Render(m.list.View())
 }
 

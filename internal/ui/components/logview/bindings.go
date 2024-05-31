@@ -6,12 +6,12 @@ func additionalFullHelpKeys() []key.Binding {
 	var keys []key.Binding
 	keys = append(keys,
 		key.NewBinding(
-			key.WithKeys("f"),
-			key.WithHelp("f", "query editor"),
+			key.WithKeys("q"),
+			key.WithHelp("q", "query editor"),
 		),
 		key.NewBinding(
-			key.WithKeys("q"),
-			key.WithHelp("q", "query loader"),
+			key.WithKeys("d"),
+			key.WithHelp("d", "query loader"),
 		),
 		key.NewBinding(
 			key.WithKeys("x"),
@@ -61,8 +61,8 @@ func additionalShortHelpKeys() []key.Binding {
 			key.WithHelp("r", "run"),
 		),
 		key.NewBinding(
-			key.WithKeys("f"),
-			key.WithHelp("f", "query editor"),
+			key.WithKeys("q"),
+			key.WithHelp("q", "query editor"),
 		),
 		key.NewBinding(
 			key.WithKeys("ctrl+c"),

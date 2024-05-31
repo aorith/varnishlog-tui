@@ -91,7 +91,7 @@ func (m Model) View() string {
 
 	availableHeight := m.height
 	head := fmt.Sprintf("%s\n",
-		styles.TitleStyle.Render("Varnishlog Query Editor"),
+		styles.TitleStyle.Render("Query Editor"),
 	)
 	availableHeight -= lipgloss.Height(head)
 
@@ -103,7 +103,7 @@ func (m Model) View() string {
 	return styles.QueryEditorMarginStyle.Render(
 		lipgloss.JoinVertical(lipgloss.Left,
 			head,
-			styles.QueryEditorScriptStyle.Width(m.width-4).Height(availableHeight-4).MaxHeight(availableHeight-2).Render(s.String()),
+			styles.QueryEditorScriptStyle.Width(m.width-4).Height(availableHeight-2).MaxHeight(availableHeight-2).Render(s.String()),
 			tail,
 		))
 }
