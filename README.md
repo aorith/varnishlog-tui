@@ -2,7 +2,7 @@
 
 ## Demo
 
-[![Demo of varnishlog-tui](https://img.youtube.com/vi/9GoODtTGhHo/0.jpg)](https://www.youtube.com/watch?v=9GoODtTGhHo "Demo of varnishlog-tui")
+[![Demo of varnishlog-tui](https://github.com/aorith/varnishlog-tui/assets/5411704/8ea349e6-3c7f-4656-8b37-8d101af82370)](https://www.youtube.com/watch?v=9GoODtTGhHo "Demo of varnishlog-tui")
 
 ## Overview
 
