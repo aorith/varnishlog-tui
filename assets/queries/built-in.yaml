@@ -6,8 +6,8 @@ queries:
   script: |-
     # The command(s) executed should output varnishlog logs in plain text.
     # If you're running Varnish locally, the command can be just `varnishlog`.
-    # You can also use `ssh`, `docker exec`, or a simple `cat ~/my.log` to provide them,
-    # as long as the command is not interactive.
+    # You can also use `ssh`, `docker exec`, or a simple `cat ~/my.log` to
+    # provide them, as long as the command is not interactive.
 
     # Write the command as if you were writing it in a shell script.
 
@@ -92,7 +92,7 @@ queries:
     # The remote host should be configured to use SSH Key-Based Authentication.
     # To make it work without quoting hell, we're using "heredoc".
 
-    ssh -o 'BatchMode=yes' -T user@192.168.1.100 << 'EOF'
+    ssh -o ConnectTimeout=5 -o 'BatchMode=yes' -T user@192.168.1.100 << 'EOF'
 
     varnishlog \
     -g request -k 100
