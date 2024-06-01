@@ -88,7 +88,7 @@ func execTeaProcess(lines []string, returnBody bool, extension, command string) 
 	fileName := tempFile.Name()
 	return tea.ExecProcess(c, func(err error) tea.Msg {
 		go func() {
-			time.Sleep(time.Second * 10) // Give some time until the file is read
+			time.Sleep(time.Millisecond * 1500) // Give some time until the file is read
 			os.Remove(fileName)
 		}()
 
