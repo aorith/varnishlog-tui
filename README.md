@@ -1,5 +1,9 @@
 # varnishlog-tui
 
+## Demo
+
+[![Demo of varnishlog-tui](https://img.youtube.com/vi/9GoODtTGhHo/0.jpg)](https://www.youtube.com/watch?v=9GoODtTGhHo "Demo of varnishlog-tui")
+
 ## Overview
 
 `varnishlog-tui` allows you to inspect varnishlog transactions, find related transactions, generate small reports about them, and organize varnishlog queries.
