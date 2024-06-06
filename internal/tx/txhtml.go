@@ -45,7 +45,7 @@ func (t Tx) generateAllTxsDiagram(parent *Tx) string {
 	subgraphs := make(map[string]string)
 	collectDiagramRelationships(parent, relationships, subgraphs)
 
-	s.WriteString("\nflowchart TD\n")
+	s.WriteString("\nflowchart LR\n")
 	for _, sub := range subgraphs {
 		s.WriteString(fmt.Sprintf("%s\n", sub))
 	}
@@ -59,10 +59,10 @@ func (t Tx) generateAllTxsDiagram(parent *Tx) string {
 // collectDiagramRelationships is a helper to construct the mermaid diagram
 func collectDiagramRelationships(tx *Tx, relationships map[string]struct{}, subgraphs map[string]string) {
 	// A relationship is represented like this:
-	// TxId1 ==> TxId2
+	// TxId1 -- reason --> TxId2
 	if tx.Parent != nil {
 		rel := fmt.Sprintf(
-			"    %s== \"%s\" ==>%s",
+			"    %s-- \"%s\" -->%s",
 			tx.Parent.Txid,
 			tx.Reason,
 			tx.Txid,
@@ -71,6 +71,7 @@ func collectDiagramRelationships(tx *Tx, relationships map[string]struct{}, subg
 	}
 
 	// The subgraphs map contains the TxID as the key and the subgraph as the value
+	// NOTE: this is not a subgraph anymore since I didn't find useful info to put inside it
 	if _, exists := subgraphs[tx.Txid]; !exists {
 		var style string
 		if tx.RecordType == "sess" {
@@ -81,28 +82,9 @@ func collectDiagramRelationships(tx *Tx, relationships map[string]struct{}, subg
 			style = "    style " + tx.Txid + " fill:#fce7e6,stroke:#666666,stroke-width:1px"
 		}
 
-		// Timestamp events: Start --> Fetch --> Connected ...
-		var (
-			tsEvents                       []string
-			event, tsEventsRel, eventStyle string
-		)
-
-		if len(tx.Timestamps) > 0 {
-			for i, ts := range tx.Timestamps {
-				event = fmt.Sprintf("%s_%d_%s(%s\n%s)", ts.EventLabel, i, tx.Txid, ts.EventLabel, ts.SinceLast)
-				tsEvents = append(tsEvents, event)
-				eventStyle += fmt.Sprintf("    style %s_%d_%s fill:#fafafa,color:#333333,stroke:#111111,stroke-width:1px;\n", ts.EventLabel, i, tx.Txid)
-			}
-		}
-		tsEventsRel = strings.Join(tsEvents, "-->")
-
 		subgraph := fmt.Sprintf(
-			"%s\n%s\n%s\n%s\n%s\n%s\n",
-			fmt.Sprintf("subgraph %s[\"`&nbsp;**%s %s**&nbsp;\n`\"]", tx.Txid, tx.Txid, tx.RecordType),
-			"    direction LR",
-			"    "+tsEventsRel,
-			"    end",
-			eventStyle,
+			"%s\n%s\n",
+			fmt.Sprintf("    %s(\"`**%s**\n%s`\")", tx.Txid, tx.Txid, tx.RecordType),
 			style,
 		)
 		subgraphs[tx.Txid] = subgraph
