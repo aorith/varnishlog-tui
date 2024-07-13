@@ -5,7 +5,7 @@ go 1.22.2
 require (
 	github.com/charmbracelet/bubbles v0.18.0
 	github.com/charmbracelet/bubbletea v0.26.6
-	github.com/charmbracelet/lipgloss v0.11.1
+	github.com/charmbracelet/lipgloss v0.12.0
 	github.com/charmbracelet/log v0.4.0
 	github.com/muesli/reflow v0.3.0
 	gopkg.in/yaml.v3 v3.0.1
