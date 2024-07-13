@@ -10,6 +10,9 @@ services:
     - "8080:80"
     depends_on:
     - varnishb
+    networks:
+      varnish_network:
+        ipv4_address: 192.168.50.10
 
   varnishb:
     image: varnish:7.5
@@ -18,3 +21,13 @@ services:
     - ./backend.vcl:/etc/varnish/default.vcl:ro
     tmpfs:
     - /var/lib/varnish/varnishd:exec
+    networks:
+      varnish_network:
+        ipv4_address: 192.168.50.11
+
+networks:
+  varnish_network:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 192.168.50.0/24

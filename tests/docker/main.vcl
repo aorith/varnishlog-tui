@@ -3,7 +3,7 @@ vcl 4.0;
 import std;
 
 backend varnishb {
-    .host = "varnishb";
+    .host = "192.168.50.11";
     .port = "80";
 }
 
