@@ -7,7 +7,14 @@ backend varnishb {
     .port = "80";
 }
 
+backend notgood {
+    .host = "192.168.50.11";
+    .port = "9999";
+}
+
 sub vcl_recv {
+    std.log("custom VCL recv");
+
     # Random headers
     set req.http.xid = req.xid;
     if (req.http.xid ~ "[012]$") {
@@ -26,6 +33,8 @@ sub vcl_recv {
 
     if (req.http.host ~ "^www\.example[12]\.com$") {
         set req.backend_hint = varnishb;
+    } else if (req.http.host ~ "^bad") {
+        set req.backend_hint = notgood;
     } else {
         return (synth(404, "Host Not Found"));
     }
