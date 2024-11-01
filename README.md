@@ -1,5 +1,7 @@
 # varnishlog-tui
 
+**DEPRECATED**: This project has been replaced by [varnishlog-parser](https://github.com/aorith/varnishlog-parser). While I enjoy TUIs and primarily work in the terminal I wanted to quickly copy & paste the logs. Having a web interface available directly in a browser tab makes this much easier.
+
 ## Demo
 
 [![Demo of varnishlog-tui](https://github.com/aorith/varnishlog-tui/assets/5411704/8ea349e6-3c7f-4656-8b37-8d101af82370)](https://www.youtube.com/watch?v=9GoODtTGhHo "Demo of varnishlog-tui")
